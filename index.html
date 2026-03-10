@@ -3,7 +3,6 @@
 <meta charset="UTF-8">
 <title>Shop túi mù(ff)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1"><style>
-
 body{
 font-family:Arial;
 margin:0;
@@ -68,7 +67,6 @@ border-top:1px solid #ccc;
 }
 
 .hidden{display:none;}
-
 </style></head><body><div class="header">
 SHOP TÚI MÙ TANDANG(FF)
 </div><div class="container"><div id="home" class="page active">
@@ -114,12 +112,7 @@ SHOP TÚI MÙ TANDANG(FF)
 <option value="2000000">2M</option>
 </select><button onclick="addAcc()">Thêm ACC</button>
 
-</div><div class="card"><h3>Chỉnh tỉ lệ ACC</h3><input id="rateEmail" placeholder="gmail acc">
-<input id="newRate" placeholder="tỉ lệ mới"><button onclick="changeRate()">Sửa tỉ lệ</button>
-
-</div><div class="card"><h3>ACC đã bán</h3><button onclick="viewSold()">Xem</button>
-
-<div id="soldList"></div></div></div></div><div id="myacc" class="page"><div class="card"><h3>ACC đã mua</h3><div id="accList"></div></div></div></div><div class="footer"><button onclick="showPage('home')">Trang chủ</button>
+</div></div></div><div id="myacc" class="page"><div class="card"><h3>ACC đã mua</h3><div id="accList"></div></div></div></div><div class="footer"><button onclick="showPage('home')">Trang chủ</button>
 <button onclick="showPage('shop')">Shop</button>
 <button onclick="showPage('account')">Tài khoản</button>
 <button onclick="showPage('myacc')">ACC</button>
@@ -130,13 +123,11 @@ let adminGmail="nguyentandang2472010@gmail.com"
 
 let users=JSON.parse(localStorage.getItem("users"))||[]
 let accStore=JSON.parse(localStorage.getItem("accStore"))||{}
-let soldAcc=JSON.parse(localStorage.getItem("soldAcc"))||[]
 let currentUser=localStorage.getItem("login")
 
 function saveAll(){
 localStorage.setItem("users",JSON.stringify(users))
 localStorage.setItem("accStore",JSON.stringify(accStore))
-localStorage.setItem("soldAcc",JSON.stringify(soldAcc))
 }
 
 function showPage(id){
@@ -147,16 +138,16 @@ if(id=="myacc") loadAcc()
 
 function register(){
 
-let user=regUser.value.trim()
-let pass=regPass.value.trim()
+let user = regUser.value.trim().toLowerCase()
+let pass = regPass.value.trim()
 
-if(!user||!pass){
-alert("Nhập đầy đủ")
+if(user=="" || pass==""){
+alert("Nhập tài khoản và mật khẩu")
 return
 }
 
-if(users.find(a=>a.user==user)){
-alert("User đã tồn tại")
+if(users.find(a=>a.user===user)){
+alert("Tài khoản đã tồn tại")
 return
 }
 
@@ -170,10 +161,10 @@ alert("Đăng ký thành công")
 
 function login(){
 
-let user=loginUser.value.trim()
-let pass=loginPass.value.trim()
+let user = loginUser.value.trim().toLowerCase()
+let pass = loginPass.value.trim()
 
-let found=users.find(a=>a.user==user && a.pass==pass)
+let found = users.find(a=>a.user===user && a.pass===pass)
 
 if(!found){
 alert("Sai tài khoản hoặc mật khẩu")
@@ -275,8 +266,6 @@ let acc=getRandomAcc(list)
 
 accStore[price]=list.filter(a=>a!==acc)
 
-soldAcc.push(acc)
-
 accUser.money-=price
 
 accUser.acc.push(acc.gmail+" | "+acc.pass)
@@ -309,7 +298,7 @@ accList.innerHTML+=`<div class="card">${a}</div>`
 
 function addMoney(){
 
-let username=userAdd.value.trim()
+let username=userAdd.value.trim().toLowerCase()
 let moneyValue=parseInt(moneyAdd.value)
 
 if(username=="all"){
@@ -319,7 +308,7 @@ alert("Đã thêm tiền cho tất cả")
 return
 }
 
-let acc=users.find(a=>a.user==username)
+let acc=users.find(a=>a.user===username)
 
 if(!acc){
 alert("Không tìm thấy user")
@@ -330,7 +319,7 @@ acc.money+=moneyValue
 
 saveAll()
 
-if(currentUser==username){
+if(currentUser===username){
 money.innerText=acc.money
 }
 
@@ -338,48 +327,9 @@ alert("Đã thêm tiền")
 
 }
 
-function viewSold(){
-
-soldList.innerHTML=""
-
-soldAcc.forEach(a=>{
-
-soldList.innerHTML+=`
-<div class="card">
-${a.gmail} | ${a.pass}
-</div>
-`
-
-})
-
-}
-
-function changeRate(){
-
-let email=rateEmail.value.trim()
-let rate=parseInt(newRate.value)
-
-for(let bag in accStore){
-
-accStore[bag].forEach(a=>{
-
-if(a.gmail==email){
-a.rate=rate
-}
-
-})
-
-}
-
-saveAll()
-
-alert("Đã sửa tỉ lệ")
-
-}
-
 if(currentUser){
 
-let accUser=users.find(a=>a.user==currentUser)
+let accUser=users.find(a=>a.user===currentUser)
 
 if(accUser){
 
@@ -396,4 +346,4 @@ registerBox.style.display="none"
 }
 
 </script></body>
-  </html>
+        </html>
