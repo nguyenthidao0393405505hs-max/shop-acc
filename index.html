@@ -101,7 +101,8 @@ SHOP TÚI MÙ TANDANG(FF)
 </div><div id="adminPanel" class="hidden"><div class="card"><h3>Thêm tiền</h3><input id="userAdd" placeholder="User hoặc all">
 <input id="moneyAdd" placeholder="Tiền"><button onclick="addMoney()">Thêm tiền</button>
 
-</div><div class="card"><h3>Thêm ACC</h3><input id="newAcc" placeholder="gmail | password | tỉ lệ"><select id="bagType"><option value="19000">19k</option>
+</div><div class="card"><h3>Thêm ACC</h3><input id="newAcc" placeholder="gmail | password | tỉ lệ"><select id="bagType">
+<option value="19000">19k</option>
 <option value="70000">70k</option>
 <option value="100000">100k</option>
 <option value="299000">299k</option>
@@ -110,9 +111,15 @@ SHOP TÚI MÙ TANDANG(FF)
 <option value="699000">699k</option>
 <option value="799000">799k</option>
 <option value="1000000">1M</option>
-<option value="2000000">2M</option></select><button onclick="addAcc()">Thêm ACC</button>
+<option value="2000000">2M</option>
+</select><button onclick="addAcc()">Thêm ACC</button>
 
-</div></div></div><div id="myacc" class="page"><div class="card"><h3>ACC đã mua</h3><div id="accList"></div></div></div></div><div class="footer"><button onclick="showPage('home')">Trang chủ</button>
+</div><div class="card"><h3>Chỉnh tỉ lệ ACC</h3><input id="rateEmail" placeholder="gmail acc">
+<input id="newRate" placeholder="tỉ lệ mới"><button onclick="changeRate()">Sửa tỉ lệ</button>
+
+</div><div class="card"><h3>ACC đã bán</h3><button onclick="viewSold()">Xem</button>
+
+<div id="soldList"></div></div></div></div><div id="myacc" class="page"><div class="card"><h3>ACC đã mua</h3><div id="accList"></div></div></div></div><div class="footer"><button onclick="showPage('home')">Trang chủ</button>
 <button onclick="showPage('shop')">Shop</button>
 <button onclick="showPage('account')">Tài khoản</button>
 <button onclick="showPage('myacc')">ACC</button>
@@ -123,25 +130,37 @@ let adminGmail="nguyentandang2472010@gmail.com"
 
 let users=JSON.parse(localStorage.getItem("users"))||[]
 let accStore=JSON.parse(localStorage.getItem("accStore"))||{}
-let savedLogin=localStorage.getItem("login")
+let soldAcc=JSON.parse(localStorage.getItem("soldAcc"))||[]
+let currentUser=localStorage.getItem("login")
 
 function saveAll(){
 localStorage.setItem("users",JSON.stringify(users))
 localStorage.setItem("accStore",JSON.stringify(accStore))
+localStorage.setItem("soldAcc",JSON.stringify(soldAcc))
 }
 
 function showPage(id){
-
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"))
 document.getElementById(id).classList.add("active")
-
 if(id=="myacc") loadAcc()
-
 }
 
 function register(){
 
-users.push({user:regUser.value,pass:regPass.value,money:0,acc:[]})
+let user=regUser.value.trim()
+let pass=regPass.value.trim()
+
+if(!user||!pass){
+alert("Nhập đầy đủ")
+return
+}
+
+if(users.find(a=>a.user==user)){
+alert("User đã tồn tại")
+return
+}
+
+users.push({user:user,pass:pass,money:0,acc:[]})
 
 saveAll()
 
@@ -151,14 +170,18 @@ alert("Đăng ký thành công")
 
 function login(){
 
-let username=loginUser.value
-let password=loginPass.value
+let user=loginUser.value.trim()
+let pass=loginPass.value.trim()
 
-let found=users.find(a=>a.user==username && a.pass==password)
+let found=users.find(a=>a.user==user && a.pass==pass)
 
-if(found){
+if(!found){
+alert("Sai tài khoản hoặc mật khẩu")
+return
+}
 
 localStorage.setItem("login",found.user)
+currentUser=found.user
 
 money.innerText=found.money
 helloUser.innerText="Xin chào: "+found.user
@@ -168,19 +191,11 @@ userPanel.classList.remove("hidden")
 loginBox.style.display="none"
 registerBox.style.display="none"
 
-}else{
-
-alert("Sai tài khoản hoặc mật khẩu")
-
-}
-
 }
 
 function logout(){
-
 localStorage.removeItem("login")
 location.reload()
-
 }
 
 function adminLogin(){
@@ -188,14 +203,10 @@ function adminLogin(){
 let gmail=adminEmail.value.trim()
 
 if(gmail===adminGmail){
-
 adminPanel.classList.remove("hidden")
 alert("Admin login thành công")
-
 }else{
-
 alert("Sai Gmail admin")
-
 }
 
 }
@@ -229,10 +240,8 @@ list.forEach(a=>total+=a.rate)
 let rand=Math.random()*total
 
 for(let a of list){
-
 rand-=a.rate
 if(rand<=0) return a
-
 }
 
 return list[0]
@@ -265,6 +274,8 @@ let list=accStore[price]
 let acc=getRandomAcc(list)
 
 accStore[price]=list.filter(a=>a!==acc)
+
+soldAcc.push(acc)
 
 accUser.money-=price
 
@@ -302,15 +313,10 @@ let username=userAdd.value.trim()
 let moneyValue=parseInt(moneyAdd.value)
 
 if(username=="all"){
-
 users.forEach(u=>u.money+=moneyValue)
-
 saveAll()
-
 alert("Đã thêm tiền cho tất cả")
-
 return
-
 }
 
 let acc=users.find(a=>a.user==username)
@@ -324,24 +330,60 @@ acc.money+=moneyValue
 
 saveAll()
 
-alert("Đã thêm tiền")
-
-let current=localStorage.getItem("login")
-
-if(current==username){
+if(currentUser==username){
 money.innerText=acc.money
 }
 
+alert("Đã thêm tiền")
+
 }
 
-if(savedLogin){
+function viewSold(){
 
-let accUser=users.find(a=>a.user==savedLogin)
+soldList.innerHTML=""
+
+soldAcc.forEach(a=>{
+
+soldList.innerHTML+=`
+<div class="card">
+${a.gmail} | ${a.pass}
+</div>
+`
+
+})
+
+}
+
+function changeRate(){
+
+let email=rateEmail.value.trim()
+let rate=parseInt(newRate.value)
+
+for(let bag in accStore){
+
+accStore[bag].forEach(a=>{
+
+if(a.gmail==email){
+a.rate=rate
+}
+
+})
+
+}
+
+saveAll()
+
+alert("Đã sửa tỉ lệ")
+
+}
+
+if(currentUser){
+
+let accUser=users.find(a=>a.user==currentUser)
 
 if(accUser){
 
 money.innerText=accUser.money
-
 helloUser.innerText="Xin chào: "+accUser.user
 
 userPanel.classList.remove("hidden")
