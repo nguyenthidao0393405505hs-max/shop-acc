@@ -1,8 +1,12 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Shop túi mù(ff)</title>
-<meta name="viewport" content="width=device-width, initial-scale=1"><style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
 body{
 font-family:Arial;
 margin:0;
@@ -35,24 +39,21 @@ padding:20px;
 margin-bottom:20px;
 border-radius:12px;
 box-shadow:0 3px 8px rgba(0,0,0,0.1);
-font-size:18px;
 }
 
 button{
 background:#2b6cff;
 color:white;
 border:none;
-padding:12px 16px;
+padding:12px;
 border-radius:8px;
 cursor:pointer;
-font-size:16px;
 }
 
 input,select{
 width:95%;
 padding:10px;
 margin-bottom:10px;
-font-size:16px;
 }
 
 .footer{
@@ -67,86 +68,178 @@ border-top:1px solid #ccc;
 }
 
 .hidden{display:none;}
-</style></head><body><div class="header">
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
 SHOP TÚI MÙ TANDANG(FF)
-</div><div class="container"><div id="home" class="page active">
+</div>
+
+<div class="container">
+
+<div id="home" class="page active">
 <div class="card">
 <h3>Trang chủ</h3>
-<p>Shop bán túi mù(ff)</p>
+<p>Shop bán túi mù FF</p>
 </div>
-</div><div id="shop" class="page"><div class="card">Túi mù 19k <button onclick="buy(19000)">Mua</button></div>
+</div>
+
+<div id="shop" class="page">
+
+<div class="card">Túi mù 19k <button onclick="buy(19000)">Mua</button></div>
 <div class="card">Túi mù 70k <button onclick="buy(70000)">Mua</button></div>
 <div class="card">Túi mù 100k <button onclick="buy(100000)">Mua</button></div>
 <div class="card">Túi mù 299k <button onclick="buy(299000)">Mua</button></div>
 <div class="card">Túi mù 499k <button onclick="buy(499000)">Mua</button></div>
-<div class="card">Túi mù 599k <button onclick="buy(599000)">Mua</button></div>
-<div class="card">Túi mù 699k <button onclick="buy(699000)">Mua</button></div>
-<div class="card">Túi mù 799k <button onclick="buy(799000)">Mua</button></div>
-<div class="card">Túi mù 1M <button onclick="buy(1000000)">Mua</button></div>
-<div class="card">Túi mù 2M <button onclick="buy(2000000)">Mua</button></div></div><div id="account" class="page"><div id="loginBox" class="card"><h3>Đăng nhập</h3><input id="loginUser" placeholder="Tài khoản">
-<input id="loginPass" type="password" placeholder="Mật khẩu"><button onclick="login()">Đăng nhập</button>
 
-</div><div id="registerBox" class="card"><h3>Đăng ký</h3><input id="regUser" placeholder="Tài khoản">
-<input id="regPass" type="password" placeholder="Mật khẩu"><button onclick="register()">Đăng ký</button>
+</div>
 
-</div><div class="card">
+<div id="account" class="page">
+
+<div id="loginBox" class="card">
+<h3>Đăng nhập</h3>
+
+<input id="loginUserInput" placeholder="Tài khoản">
+<input id="loginPassInput" type="password" placeholder="Mật khẩu">
+
+<button onclick="login()">Đăng nhập</button>
+
+</div>
+
+<div id="registerBox" class="card">
+
+<h3>Đăng ký</h3>
+
+<input id="regUser" placeholder="Tài khoản">
+<input id="regPass" type="password" placeholder="Mật khẩu">
+
+<button onclick="register()">Đăng ký</button>
+
+</div>
+
+<div class="card">
 <h3>Số dư</h3>
 <p id="money">0</p>
-</div><div id="userPanel" class="card hidden"><h3 id="helloUser"></h3><button onclick="logout()">Đăng xuất</button>
+</div>
 
-</div><div class="card"><h3>Admin Gmail</h3><input id="adminEmail"><button onclick="adminLogin()">Đăng nhập Admin</button>
+<div id="userPanel" class="card hidden">
 
-</div><div id="adminPanel" class="hidden"><div class="card"><h3>Thêm tiền</h3><input id="userAdd" placeholder="User hoặc all">
-<input id="moneyAdd" placeholder="Tiền"><button onclick="addMoney()">Thêm tiền</button>
+<h3 id="helloUser"></h3>
 
-</div><div class="card"><h3>Thêm ACC</h3><input id="newAcc" placeholder="gmail | password | tỉ lệ"><select id="bagType">
+<button onclick="logout()">Đăng xuất</button>
+
+</div>
+
+<div class="card">
+
+<h3>Admin Gmail</h3>
+
+<input id="adminEmail">
+
+<button onclick="adminLogin()">Đăng nhập Admin</button>
+
+</div>
+
+<div id="adminPanel" class="hidden">
+
+<div class="card">
+
+<h3>Thêm tiền</h3>
+
+<input id="userAdd" placeholder="User hoặc all">
+
+<input id="moneyAdd" placeholder="Tiền">
+
+<button onclick="addMoney()">Thêm tiền</button>
+
+</div>
+
+<div class="card">
+
+<h3>Thêm ACC</h3>
+
+<input id="newAcc" placeholder="gmail | password | tỉ lệ">
+
+<select id="bagType">
 <option value="19000">19k</option>
 <option value="70000">70k</option>
 <option value="100000">100k</option>
 <option value="299000">299k</option>
 <option value="499000">499k</option>
-<option value="599000">599k</option>
-<option value="699000">699k</option>
-<option value="799000">799k</option>
-<option value="1000000">1M</option>
-<option value="2000000">2M</option>
-</select><button onclick="addAcc()">Thêm ACC</button>
+</select>
 
-</div></div></div><div id="myacc" class="page"><div class="card"><h3>ACC đã mua</h3><div id="accList"></div></div></div></div><div class="footer"><button onclick="showPage('home')">Trang chủ</button>
+<button onclick="addAcc()">Thêm ACC</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="myacc" class="page">
+
+<div class="card">
+
+<h3>ACC đã mua</h3>
+
+<div id="accList"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+<button onclick="showPage('home')">Trang chủ</button>
 <button onclick="showPage('shop')">Shop</button>
 <button onclick="showPage('account')">Tài khoản</button>
 <button onclick="showPage('myacc')">ACC</button>
 
-</div><script>
+</div>
+
+<script>
 
 let adminGmail="nguyentandang2472010@gmail.com"
 
 let users=JSON.parse(localStorage.getItem("users"))||[]
+
 let accStore=JSON.parse(localStorage.getItem("accStore"))||{}
-let currentUser=localStorage.getItem("login")
+
+let loginUser=localStorage.getItem("login")
 
 function saveAll(){
+
 localStorage.setItem("users",JSON.stringify(users))
 localStorage.setItem("accStore",JSON.stringify(accStore))
+
 }
 
 function showPage(id){
+
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"))
+
 document.getElementById(id).classList.add("active")
+
 if(id=="myacc") loadAcc()
+
 }
 
 function register(){
 
-let user = regUser.value.trim().toLowerCase()
-let pass = regPass.value.trim()
+let user=regUser.value.trim()
+let pass=regPass.value.trim()
 
-if(user=="" || pass==""){
-alert("Nhập tài khoản và mật khẩu")
+if(!user||!pass){
+alert("Nhập đủ thông tin")
 return
 }
 
-if(users.find(a=>a.user===user)){
+if(users.find(a=>a.user==user)){
 alert("Tài khoản đã tồn tại")
 return
 }
@@ -161,20 +254,17 @@ alert("Đăng ký thành công")
 
 function login(){
 
-let user = loginUser.value.trim().toLowerCase()
-let pass = loginPass.value.trim()
+let user=loginUserInput.value.trim()
+let pass=loginPassInput.value.trim()
 
-let found = users.find(a=>a.user===user && a.pass===pass)
+let found=users.find(a=>a.user==user && a.pass==pass)
 
-if(!found){
-alert("Sai tài khoản hoặc mật khẩu")
-return
-}
+if(found){
 
 localStorage.setItem("login",found.user)
-currentUser=found.user
 
 money.innerText=found.money
+
 helloUser.innerText="Xin chào: "+found.user
 
 userPanel.classList.remove("hidden")
@@ -182,11 +272,20 @@ userPanel.classList.remove("hidden")
 loginBox.style.display="none"
 registerBox.style.display="none"
 
+}else{
+
+alert("Sai tài khoản hoặc mật khẩu")
+
+}
+
 }
 
 function logout(){
+
 localStorage.removeItem("login")
+
 location.reload()
+
 }
 
 function adminLogin(){
@@ -194,10 +293,15 @@ function adminLogin(){
 let gmail=adminEmail.value.trim()
 
 if(gmail===adminGmail){
+
 adminPanel.classList.remove("hidden")
+
 alert("Admin login thành công")
+
 }else{
+
 alert("Sai Gmail admin")
+
 }
 
 }
@@ -205,12 +309,15 @@ alert("Sai Gmail admin")
 function addAcc(){
 
 let text=newAcc.value.trim()
+
 let bag=bagType.value
 
 let parts=text.split("|")
 
 let gmail=parts[0]
+
 let pass=parts[1]||""
+
 let rate=parseInt(parts[2])||1
 
 if(!accStore[bag]) accStore[bag]=[]
@@ -226,13 +333,17 @@ alert("Đã thêm ACC")
 function getRandomAcc(list){
 
 let total=0
+
 list.forEach(a=>total+=a.rate)
 
 let rand=Math.random()*total
 
 for(let a of list){
+
 rand-=a.rate
+
 if(rand<=0) return a
+
 }
 
 return list[0]
@@ -244,20 +355,29 @@ function buy(price){
 let user=localStorage.getItem("login")
 
 if(!user){
+
 alert("Đăng nhập trước")
+
 return
+
 }
 
 let accUser=users.find(a=>a.user==user)
 
 if(accUser.money<price){
+
 alert("Không đủ tiền")
+
 return
+
 }
 
 if(!accStore[price]||accStore[price].length==0){
+
 alert("Hết ACC")
+
 return
+
 }
 
 let list=accStore[price]
@@ -291,59 +411,70 @@ let accUser=users.find(a=>a.user==user)
 accList.innerHTML=""
 
 accUser.acc.forEach(a=>{
+
 accList.innerHTML+=`<div class="card">${a}</div>`
+
 })
 
 }
 
 function addMoney(){
 
-let username=userAdd.value.trim().toLowerCase()
+let username=userAdd.value.trim()
+
 let moneyValue=parseInt(moneyAdd.value)
 
 if(username=="all"){
+
 users.forEach(u=>u.money+=moneyValue)
+
 saveAll()
+
 alert("Đã thêm tiền cho tất cả")
+
 return
+
 }
 
-let acc=users.find(a=>a.user===username)
+let acc=users.find(a=>a.user==username)
 
 if(!acc){
+
 alert("Không tìm thấy user")
+
 return
+
 }
 
 acc.money+=moneyValue
 
 saveAll()
 
-if(currentUser===username){
-money.innerText=acc.money
-}
-
 alert("Đã thêm tiền")
 
 }
 
-if(currentUser){
+if(loginUser){
 
-let accUser=users.find(a=>a.user===currentUser)
+let accUser=users.find(a=>a.user==loginUser)
 
 if(accUser){
 
 money.innerText=accUser.money
+
 helloUser.innerText="Xin chào: "+accUser.user
 
 userPanel.classList.remove("hidden")
 
 loginBox.style.display="none"
+
 registerBox.style.display="none"
 
 }
 
 }
 
-</script></body>
-        </html>
+</script>
+
+</body>
+                     </html>
