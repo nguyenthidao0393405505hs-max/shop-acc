@@ -45,7 +45,7 @@ button{
 background:#2b6cff;
 color:white;
 border:none;
-padding:12px;
+padding:12px 16px;
 border-radius:8px;
 cursor:pointer;
 }
@@ -83,7 +83,7 @@ SHOP TÚI MÙ TANDANG(FF)
 <div id="home" class="page active">
 <div class="card">
 <h3>Trang chủ</h3>
-<p>Shop bán túi mù FF</p>
+<p>Shop bán túi mù(ff)</p>
 </div>
 </div>
 
@@ -92,18 +92,18 @@ SHOP TÚI MÙ TANDANG(FF)
 <div class="card">Túi mù 19k <button onclick="buy(19000)">Mua</button></div>
 <div class="card">Túi mù 70k <button onclick="buy(70000)">Mua</button></div>
 <div class="card">Túi mù 100k <button onclick="buy(100000)">Mua</button></div>
-<div class="card">Túi mù 299k <button onclick="buy(299000)">Mua</button></div>
-<div class="card">Túi mù 499k <button onclick="buy(499000)">Mua</button></div>
 
 </div>
+
 
 <div id="account" class="page">
 
 <div id="loginBox" class="card">
+
 <h3>Đăng nhập</h3>
 
-<input id="loginUserInput" placeholder="Tài khoản">
-<input id="loginPassInput" type="password" placeholder="Mật khẩu">
+<input id="loginUser" placeholder="Tài khoản">
+<input id="loginPass" type="password" placeholder="Mật khẩu">
 
 <button onclick="login()">Đăng nhập</button>
 
@@ -120,9 +120,13 @@ SHOP TÚI MÙ TANDANG(FF)
 
 </div>
 
+
 <div class="card">
+
 <h3>Số dư</h3>
+
 <p id="money">0</p>
+
 </div>
 
 <div id="userPanel" class="card hidden">
@@ -133,15 +137,17 @@ SHOP TÚI MÙ TANDANG(FF)
 
 </div>
 
+
 <div class="card">
 
-<h3>Admin Gmail</h3>
+<h3>Đăng nhập admin bằng Gmail</h3>
 
-<input id="adminEmail">
+<input id="adminEmail" placeholder="gmail">
 
 <button onclick="adminLogin()">Đăng nhập Admin</button>
 
 </div>
+
 
 <div id="adminPanel" class="hidden">
 
@@ -150,12 +156,12 @@ SHOP TÚI MÙ TANDANG(FF)
 <h3>Thêm tiền</h3>
 
 <input id="userAdd" placeholder="User hoặc all">
-
 <input id="moneyAdd" placeholder="Tiền">
 
 <button onclick="addMoney()">Thêm tiền</button>
 
 </div>
+
 
 <div class="card">
 
@@ -167,8 +173,6 @@ SHOP TÚI MÙ TANDANG(FF)
 <option value="19000">19k</option>
 <option value="70000">70k</option>
 <option value="100000">100k</option>
-<option value="299000">299k</option>
-<option value="499000">499k</option>
 </select>
 
 <button onclick="addAcc()">Thêm ACC</button>
@@ -178,6 +182,7 @@ SHOP TÚI MÙ TANDANG(FF)
 </div>
 
 </div>
+
 
 <div id="myacc" class="page">
 
@@ -193,6 +198,7 @@ SHOP TÚI MÙ TANDANG(FF)
 
 </div>
 
+
 <div class="footer">
 
 <button onclick="showPage('home')">Trang chủ</button>
@@ -202,49 +208,40 @@ SHOP TÚI MÙ TANDANG(FF)
 
 </div>
 
+
 <script>
 
 let adminGmail="nguyentandang2472010@gmail.com"
 
 let users=JSON.parse(localStorage.getItem("users"))||[]
-
 let accStore=JSON.parse(localStorage.getItem("accStore"))||{}
-
 let loginUser=localStorage.getItem("login")
 
-function saveAll(){
 
+function saveAll(){
 localStorage.setItem("users",JSON.stringify(users))
 localStorage.setItem("accStore",JSON.stringify(accStore))
-
 }
+
 
 function showPage(id){
 
 document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"))
-
 document.getElementById(id).classList.add("active")
 
 if(id=="myacc") loadAcc()
 
 }
 
+
 function register(){
 
-let user=regUser.value.trim()
-let pass=regPass.value.trim()
-
-if(!user||!pass){
-alert("Nhập đủ thông tin")
-return
-}
-
-if(users.find(a=>a.user==user)){
-alert("Tài khoản đã tồn tại")
-return
-}
-
-users.push({user:user,pass:pass,money:0,acc:[]})
+users.push({
+user:regUser.value,
+pass:regPass.value,
+money:0,
+acc:[]
+})
 
 saveAll()
 
@@ -252,19 +249,19 @@ alert("Đăng ký thành công")
 
 }
 
+
 function login(){
 
-let user=loginUserInput.value.trim()
-let pass=loginPassInput.value.trim()
+let userInput=document.getElementById("loginUser").value
+let passInput=document.getElementById("loginPass").value
 
-let found=users.find(a=>a.user==user && a.pass==pass)
+let found=users.find(a=>a.user==userInput && a.pass==passInput)
 
 if(found){
 
 localStorage.setItem("login",found.user)
 
 money.innerText=found.money
-
 helloUser.innerText="Xin chào: "+found.user
 
 userPanel.classList.remove("hidden")
@@ -280,13 +277,14 @@ alert("Sai tài khoản hoặc mật khẩu")
 
 }
 
+
 function logout(){
 
 localStorage.removeItem("login")
-
 location.reload()
 
 }
+
 
 function adminLogin(){
 
@@ -295,7 +293,6 @@ let gmail=adminEmail.value.trim()
 if(gmail===adminGmail){
 
 adminPanel.classList.remove("hidden")
-
 alert("Admin login thành công")
 
 }else{
@@ -306,18 +303,16 @@ alert("Sai Gmail admin")
 
 }
 
+
 function addAcc(){
 
 let text=newAcc.value.trim()
-
 let bag=bagType.value
 
 let parts=text.split("|")
 
 let gmail=parts[0]
-
 let pass=parts[1]||""
-
 let rate=parseInt(parts[2])||1
 
 if(!accStore[bag]) accStore[bag]=[]
@@ -330,10 +325,10 @@ alert("Đã thêm ACC")
 
 }
 
+
 function getRandomAcc(list){
 
 let total=0
-
 list.forEach(a=>total+=a.rate)
 
 let rand=Math.random()*total
@@ -341,7 +336,6 @@ let rand=Math.random()*total
 for(let a of list){
 
 rand-=a.rate
-
 if(rand<=0) return a
 
 }
@@ -350,34 +344,26 @@ return list[0]
 
 }
 
+
 function buy(price){
 
 let user=localStorage.getItem("login")
 
 if(!user){
-
 alert("Đăng nhập trước")
-
 return
-
 }
 
 let accUser=users.find(a=>a.user==user)
 
 if(accUser.money<price){
-
 alert("Không đủ tiền")
-
 return
-
 }
 
 if(!accStore[price]||accStore[price].length==0){
-
 alert("Hết ACC")
-
 return
-
 }
 
 let list=accStore[price]
@@ -400,6 +386,7 @@ loadAcc()
 
 }
 
+
 function loadAcc(){
 
 let user=localStorage.getItem("login")
@@ -411,17 +398,15 @@ let accUser=users.find(a=>a.user==user)
 accList.innerHTML=""
 
 accUser.acc.forEach(a=>{
-
 accList.innerHTML+=`<div class="card">${a}</div>`
-
 })
 
 }
 
+
 function addMoney(){
 
 let username=userAdd.value.trim()
-
 let moneyValue=parseInt(moneyAdd.value)
 
 if(username=="all"){
@@ -439,11 +424,8 @@ return
 let acc=users.find(a=>a.user==username)
 
 if(!acc){
-
 alert("Không tìm thấy user")
-
 return
-
 }
 
 acc.money+=moneyValue
@@ -454,6 +436,7 @@ alert("Đã thêm tiền")
 
 }
 
+
 if(loginUser){
 
 let accUser=users.find(a=>a.user==loginUser)
@@ -461,13 +444,11 @@ let accUser=users.find(a=>a.user==loginUser)
 if(accUser){
 
 money.innerText=accUser.money
-
 helloUser.innerText="Xin chào: "+accUser.user
 
 userPanel.classList.remove("hidden")
 
 loginBox.style.display="none"
-
 registerBox.style.display="none"
 
 }
@@ -477,4 +458,4 @@ registerBox.style.display="none"
 </script>
 
 </body>
-  </html>
+</html>
